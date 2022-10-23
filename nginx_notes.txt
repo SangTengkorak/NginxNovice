@@ -1,0 +1,9 @@
+# Check nginx status.
+sudo systemctl enable nginx
+
+# Nginx basic operation.
+sudo systemctl enable nginx
+sudo systemctl stop nginx
+sudo systemctl reload nginx <-- Apply configuration change while keep the service run.
+sudo Nginx -t <-- Test/Validate Nginx configuration, before reload it.
+sudo Nginx -T <-- Test/Validate Nginx configuration and print it to screen, before reload it.
