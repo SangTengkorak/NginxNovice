@@ -7,3 +7,58 @@ sudo systemctl stop nginx
 sudo systemctl reload nginx <-- Apply configuration change while keep the service run.
 sudo Nginx -t <-- Test/Validate Nginx configuration, before reload it.
 sudo Nginx -T <-- Test/Validate Nginx configuration and print it to screen, before reload it.
+
+# Nginx configuration files stored in :
+root@nginxlab:/home/vagrant# ls -l /etc/nginx/
+total 64
+drwxr-xr-x 2 root root 4096 Apr 12  2022 conf.d
+-rw-r--r-- 1 root root 1077 Feb  4  2019 fastcgi.conf
+-rw-r--r-- 1 root root 1007 Feb  4  2019 fastcgi_params
+-rw-r--r-- 1 root root 2837 Feb  4  2019 koi-utf
+-rw-r--r-- 1 root root 2223 Feb  4  2019 koi-win
+-rw-r--r-- 1 root root 3957 Feb  4  2019 mime.types
+drwxr-xr-x 2 root root 4096 Apr 12  2022 modules-available
+drwxr-xr-x 2 root root 4096 Oct 23 11:15 modules-enabled
+-rw-r--r-- 1 root root 1490 Feb  4  2019 nginx.conf
+-rw-r--r-- 1 root root  180 Feb  4  2019 proxy_params
+-rw-r--r-- 1 root root  636 Feb  4  2019 scgi_params
+drwxr-xr-x 2 root root 4096 Oct 23 11:15 sites-available
+drwxr-xr-x 2 root root 4096 Oct 23 11:15 sites-enabled
+drwxr-xr-x 2 root root 4096 Oct 23 11:15 snippets
+-rw-r--r-- 1 root root  664 Feb  4  2019 uwsgi_params
+-rw-r--r-- 1 root root 3071 Feb  4  2019 win-utf
+
+# Nginx log files stored in :
+root@nginxlab:/home/vagrant# ls -l /var/log/nginx/
+total 4
+-rw-r----- 1 www-data adm 618 Oct 23 11:15 access.log
+-rw-r----- 1 www-data adm   0 Oct 23 11:15 error.log
+
+# Configure a virtual host in Nginx.
+1. Unlink Nginx default site.
+unlink /etc/nginx/sites-enabled/default
+
+2. Setup basic web host file configuration.
+vim /etc/nginx/conf.d/binaryville.conf
++++file content+++
+server {
+        listen 80 default_server;
+        server_name binaryville.local www.binaryville.local;
+        index index.html index.htm index.php;
+        root /var/www/binaryville;
+
+
+}
+++++++++++++++++++
+
+3. Apply Nginx changes.
+sudo systemctl reload nginx
+
+4. Create web host folder that matches configuration.
+mkdir -p /var/www/binaryville
+echo "Site is coming soon..." >> /var/www/binaryville/index.html
+
+5. Add files to the root directory.
+Clone file from git repo : https://github.com/samaity/learning-nginx/tree/main/Ch01
+git clone https://github.com/LinkedInLearning/learning-nginx-2492317.git
+unzip learning-nginx-2492317/Binaryville_robot_website_LIL_107684.zip -d /var/www/binaryville/
