@@ -5,7 +5,7 @@ sudo systemctl enable nginx
 sudo systemctl enable nginx
 sudo systemctl stop nginx
 sudo systemctl reload nginx <-- Apply configuration change while keep the service run.
-sudo Nginx -t <-- Test/Validate Nginx configuration, before reload it.
+sudo Nginx -t <-- Test/Validate Nginx configuration, before reload it, if any misconfiguration happen, it will be displayed in terminal.
 sudo Nginx -T <-- Test/Validate Nginx configuration and print it to screen, before reload it.
 
 # Nginx configuration files stored in :
@@ -40,7 +40,7 @@ unlink /etc/nginx/sites-enabled/default
 
 2. Setup basic web host file configuration.
 vim /etc/nginx/conf.d/binaryville.conf
-+++file content+++
++++File Content+++
 server {
         listen 80 default_server;
         server_name binaryville.local www.binaryville.local;

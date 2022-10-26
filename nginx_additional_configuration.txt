@@ -1,0 +1,36 @@
+# Add custom directory location to Nginx configuration.
+# Add custom log files for specific web server.
+vim /etc/nginx/conf.d/binaryville.conf
++++File Content+++
+server {
+        listen 80 default_server;
+        server_name binaryville.local www.binaryville.local;
+        index index.html index.htm index.php;
+        root /var/www/binaryville;
+                
+        access_log /var/log/nginx/binaryville.local.access.log;
+        error_log /var/log/nginx/binaryville.local.error.log; 
+
+        location / {
+                try_files $uri/ =404;
+        }
+        location /images {
+                autoindex on;
+                access_log /var/log/nginx/binaryville.local.images.access.log;
+                error_log /var/log/nginx/binaryville.local.images.error.log; 
+        }
+
+        error_page 404 /404.html;
+        location = /404.html {
+                internal;
+        }
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+                internal;
+        }
+        location /500 {
+                fastcgi_pass unix:/this/will/fail;
+        }
+}
+++++++++++++++++++
